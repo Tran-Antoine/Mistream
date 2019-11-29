@@ -1,6 +1,7 @@
 package net.akami.mistream.play.list;
 
 import net.akami.mistream.gamedata.CarInfoProvider;
+import net.akami.mistream.gamedata.DataHandler;
 import net.akami.mistream.output.ControlsOutput;
 import net.akami.mistream.play.OutputSequence;
 import net.akami.mistream.play.UnfragmentableOutputSequence;
@@ -26,7 +27,7 @@ public abstract class EndToEndSequence extends UnfragmentableOutputSequence {
     protected abstract Function<Integer, Float> getBoostFunction();
 
     @Override
-    public ControllerState apply(LinkedList<OutputSequence> queue) {
+    public ControllerState apply(LinkedList<OutputSequence> queue, DataHandler gameData) {
 
         Vector2f carDir = locProvider.getBotDirection().flatten();
         Vector2f carLoc = locProvider.getBotLocation().flatten();

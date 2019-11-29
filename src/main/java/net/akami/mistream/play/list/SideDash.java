@@ -3,11 +3,9 @@ package net.akami.mistream.play.list;
 import net.akami.mistream.core.BotController;
 import net.akami.mistream.play.FragmentedOutputSequence;
 import net.akami.mistream.play.OutputSequence;
-import rlbot.flat.GameTickPacket;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Queue;
 
 public class SideDash extends FragmentedOutputSequence {
 
@@ -31,10 +29,5 @@ public class SideDash extends FragmentedOutputSequence {
                 new ForwardMovement(1, speed),
                 new JumpMovement(1, left ? -0.7f : 0.7f, left ? 0.4f : -0.4f, speed, botController)
         );
-    }
-
-    @Override
-    public boolean isSuitable(GameTickPacket packet, Queue<OutputSequence> queue) {
-        return false;
     }
 }

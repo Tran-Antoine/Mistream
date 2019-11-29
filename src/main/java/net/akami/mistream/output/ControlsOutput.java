@@ -1,5 +1,7 @@
 package net.akami.mistream.output;
 
+import net.akami.mistream.core.BotController;
+import net.akami.mistream.play.list.TerminalSequenceWrapper;
 import rlbot.ControllerState;
 
 /**
@@ -31,7 +33,8 @@ public class ControlsOutput implements ControllerState {
     private boolean slideDepressed;
     private boolean useItemDepressed;
 
-    public ControlsOutput() {
+    public TerminalSequenceWrapper wrap(int frameExecutions, BotController botController) {
+        return new TerminalSequenceWrapper(this, frameExecutions, botController);
     }
 
     public ControlsOutput withSteer(float steer) {

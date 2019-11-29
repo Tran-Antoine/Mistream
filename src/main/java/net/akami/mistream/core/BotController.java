@@ -1,16 +1,15 @@
 package net.akami.mistream.core;
 
-import net.akami.mistream.gamedata.BoostDataProvider;
-import net.akami.mistream.gamedata.CarInfoProvider;
-import net.akami.mistream.gamedata.DataHandler;
-import net.akami.mistream.gamedata.DataProvider;
+import net.akami.mistream.gamedata.*;
 import net.akami.mistream.play.OutputSequence;
 import net.akami.mistream.play.list.DiagonalKickoff;
+import net.akami.mistream.util.ProbabilityLaw;
 import rlbot.ControllerState;
 import rlbot.flat.GameTickPacket;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class BotController extends DataHandler implements DataProvider {
 
@@ -23,7 +22,6 @@ public class BotController extends DataHandler implements DataProvider {
     // The actual list of available "plays"
     private final List<Function<BotController, OutputSequence>> generator;
 
-
     public BotController() {
         this.queue = new LinkedList<>();
         this.generator = loadSuppliers();
@@ -32,21 +30,24 @@ public class BotController extends DataHandler implements DataProvider {
     @Override
     public void update(GameTickPacket packet) {
         dataProviders.forEach((dataProvider -> dataProvider.update(packet)));
-        updateQueue(packet);
+        updateQueue();
     }
 
-    private void updateQueue(GameTickPacket packet) {
+    private void updateQueue() {
         // If several trajectories are already planned, we avoid loading any other. Plays can not be predicted so far ahead
         if(queue.size() >= MAX_PREDICTIONS) {
             return;
         }
 
-        for(Function<BotController, OutputSequence> supplier : generator) {
-            OutputSequence sequence = supplier.apply(this);
-            if(sequence.isSuitable(packet, queue)) {
-                sequence.queue(queue);
-            }
-        }
+        List<OutputSequence> sequences = generator
+                .stream()
+                .map((f) -> f.apply(this))
+                .collect(Collectors.toList());
+
+        OutputSequence suitableSequence = ProbabilityLaw.of(sequences, (seq) -> seq.weight(this, queue))
+                .draw();
+
+        suitableSequence.queue(queue);
     }
 
     public Optional<ControllerState> provideController() {
@@ -56,7 +57,7 @@ public class BotController extends DataHandler implements DataProvider {
                 return Optional.empty();
             }
         }
-        return Optional.of(currentSequence.apply(queue));
+        return Optional.of(currentSequence.apply(queue, this));
     }
 
     public boolean isBotInactive() {
@@ -73,7 +74,8 @@ public class BotController extends DataHandler implements DataProvider {
     protected List<DataProvider> loadProviders() {
         return Arrays.asList(
                 new BoostDataProvider(),
-                new CarInfoProvider()
+                new CarInfoProvider(),
+                new GameState()
         );
     }
 }

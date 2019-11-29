@@ -1,20 +1,24 @@
 package net.akami.mistream.play;
 
+import net.akami.mistream.gamedata.DataHandler;
+import net.akami.mistream.util.ProbabilityLaw;
 import rlbot.ControllerState;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class AlternativeOutputSequence implements OutputSequence {
 
     @Override
-    public ControllerState apply(LinkedList<OutputSequence> queue) {
-        for(OutputSequence current : loadAlternatives()) {
-            if(current.isSuitable(null, queue)) {
-                return current.apply(queue);
-            }
-        }
-        throw new IllegalStateException("Unreachable statement. No alternative found");
+    public ControllerState apply(LinkedList<OutputSequence> queue, DataHandler gameData) {
+        List<OutputSequence> sequences = loadAlternatives()
+                .stream()
+                .filter((seq) -> seq.weight(gameData, queue) != 0)
+                .collect(Collectors.toList());
+        return ProbabilityLaw.of(sequences, (seq) -> seq.weight(null, queue))
+                .draw()
+                .apply(queue, gameData);
     }
 
     protected abstract List<OutputSequence> loadAlternatives();

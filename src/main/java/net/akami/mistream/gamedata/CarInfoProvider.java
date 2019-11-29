@@ -15,6 +15,7 @@ public class CarInfoProvider implements DataProvider {
     private Vector3f botDirection;
     private Vector3f playerLocation;
 
+    // TODO : not update this all the time, but rather on demand
     @Override
     public void update(GameTickPacket packet) {
         BiFunction<Integer, Function<Physics, Vector3>, Vector3f> gen =

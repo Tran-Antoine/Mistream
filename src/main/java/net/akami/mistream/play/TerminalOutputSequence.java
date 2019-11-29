@@ -1,6 +1,7 @@
 package net.akami.mistream.play;
 
 import net.akami.mistream.core.BotController;
+import net.akami.mistream.gamedata.DataHandler;
 import rlbot.ControllerState;
 
 import java.util.LinkedList;
@@ -20,7 +21,7 @@ public abstract class TerminalOutputSequence implements OutputSequence {
     protected abstract ControllerState loadController();
 
     @Override
-    public ControllerState apply(LinkedList<OutputSequence> queue) {
+    public ControllerState apply(LinkedList<OutputSequence> queue, DataHandler gameData) {
         this.currentFrameExecutions++;
         if(controllerState == null) {
             controllerState = loadController();

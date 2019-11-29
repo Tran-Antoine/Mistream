@@ -1,6 +1,7 @@
 package net.akami.mistream.play;
 
 import net.akami.mistream.core.BotController;
+import net.akami.mistream.gamedata.DataHandler;
 import rlbot.ControllerState;
 
 import java.util.LinkedList;
@@ -23,14 +24,14 @@ public abstract class FragmentedOutputSequence implements OutputSequence {
     }
 
     @Override
-    public ControllerState apply(LinkedList<OutputSequence> queue) {
+    public ControllerState apply(LinkedList<OutputSequence> queue, DataHandler gameData) {
         if(children == null)
             children = loadChildren();
 
         OutputSequence first = children.remove(0);
         MutableInteger integer = new MutableInteger();
         children.forEach(child -> queue.add(integer.i++, child));
-        return first.apply(queue);
+        return first.apply(queue, gameData);
     }
 
     // Only used for lambda incrementation

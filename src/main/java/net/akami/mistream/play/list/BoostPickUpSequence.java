@@ -1,13 +1,10 @@
 package net.akami.mistream.play.list;
 
+import net.akami.mistream.core.BotController;
 import net.akami.mistream.gamedata.BoostDataProvider;
 import net.akami.mistream.gamedata.BoostPad;
 import net.akami.mistream.gamedata.CarInfoProvider;
-import net.akami.mistream.core.BotController;
-import net.akami.mistream.play.OutputSequence;
-import rlbot.flat.GameTickPacket;
 
-import java.util.Queue;
 import java.util.function.Function;
 
 
@@ -26,11 +23,6 @@ public class BoostPickUpSequence extends EndToEndSequence {
     @Override
     protected Function<Integer, Float> getBoostFunction() {
         return (f) -> -1f;
-    }
-
-    @Override
-    public boolean isSuitable(GameTickPacket packet, Queue<OutputSequence> queue) {
-        return false;
     }
 
     @Override
