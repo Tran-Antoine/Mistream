@@ -1,10 +1,10 @@
 package net.akami.mistream.play.list;
 
 import net.akami.mistream.core.BotController;
-import net.akami.mistream.play.TerminalOutputSequence;
+import net.akami.mistream.play.TerminalSequence;
 import rlbot.ControllerState;
 
-public class TerminalSequenceWrapper extends TerminalOutputSequence {
+public class TerminalSequenceWrapper extends TerminalSequence {
 
     private ControllerState controller;
 

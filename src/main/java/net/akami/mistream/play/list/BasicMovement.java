@@ -1,10 +1,10 @@
 package net.akami.mistream.play.list;
 
 import net.akami.mistream.output.ControlsOutput;
-import net.akami.mistream.play.TerminalOutputSequence;
+import net.akami.mistream.play.TerminalSequence;
 import rlbot.ControllerState;
 
-public class BasicMovement extends TerminalOutputSequence {
+public class BasicMovement extends TerminalSequence {
 
     private float speed;
     private float steer;

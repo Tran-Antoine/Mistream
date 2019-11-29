@@ -6,17 +6,17 @@ import rlbot.ControllerState;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public abstract class AlternativeOutputSequence implements OutputSequence {
+public abstract class PolymorphicSequence implements OutputSequence {
+
+    private List<OutputSequence> possibilities;
 
     @Override
     public ControllerState apply(LinkedList<OutputSequence> queue, DataHandler gameData) {
-        List<OutputSequence> sequences = loadAlternatives()
-                .stream()
-                .filter((seq) -> seq.weight(gameData, queue) != 0)
-                .collect(Collectors.toList());
-        return ProbabilityLaw.of(sequences, (seq) -> seq.weight(null, queue))
+        if(possibilities == null) {
+            possibilities = loadAlternatives();
+        }
+        return ProbabilityLaw.of(possibilities, (seq) -> seq.weight(queue, null))
                 .draw()
                 .apply(queue, gameData);
     }

@@ -6,14 +6,14 @@ import rlbot.ControllerState;
 
 import java.util.LinkedList;
 
-public abstract class TerminalOutputSequence implements OutputSequence {
+public abstract class TerminalSequence implements OutputSequence {
 
     private int frameExecutions;
     private int currentFrameExecutions;
     private ControllerState controllerState;
     protected BotController botController;
 
-    public TerminalOutputSequence(int frameExecutions, BotController botController) {
+    public TerminalSequence(int frameExecutions, BotController botController) {
         this.frameExecutions = frameExecutions;
         this.botController = botController;
     }

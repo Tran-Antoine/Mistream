@@ -2,10 +2,10 @@ package net.akami.mistream.play.list;
 
 import net.akami.mistream.output.ControlsOutput;
 import net.akami.mistream.core.BotController;
-import net.akami.mistream.play.TerminalOutputSequence;
+import net.akami.mistream.play.TerminalSequence;
 import rlbot.ControllerState;
 
-public class JumpMovement extends TerminalOutputSequence {
+public class JumpMovement extends TerminalSequence {
 
     private float roll;
     private float yaw;

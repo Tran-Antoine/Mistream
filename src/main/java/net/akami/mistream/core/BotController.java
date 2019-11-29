@@ -44,7 +44,7 @@ public class BotController extends DataHandler implements DataProvider {
                 .map((f) -> f.apply(this))
                 .collect(Collectors.toList());
 
-        OutputSequence suitableSequence = ProbabilityLaw.of(sequences, (seq) -> seq.weight(this, queue))
+        OutputSequence suitableSequence = ProbabilityLaw.of(sequences, (seq) -> seq.weight(queue, this))
                 .draw();
 
         suitableSequence.queue(queue);

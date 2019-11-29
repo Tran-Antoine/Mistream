@@ -9,6 +9,8 @@ import java.util.function.Function;
 
 public class ProbabilityLaw<T> {
 
+    public static final float GUARANTEED = -1;
+
     private final Map<T, Float> events;
     private final Random random;
     private float totalWeight;
@@ -51,11 +53,16 @@ public class ProbabilityLaw<T> {
         float randValue = random.nextFloat() * totalWeight;
         T previous = null;
         for(Entry<T, Float> event : events.entrySet()) {
+            float value = event.getValue();
+            T key = event.getKey();
+            if(value == -1) {
+                return key;
+            }
             if(current > randValue) {
                 return previous;
             }
-            previous = event.getKey();
-            current += event.getValue();
+            previous = key;
+            current += value;
         }
         return previous;
     }

@@ -7,7 +7,7 @@ import net.akami.mistream.vector.Vector3f;
 import java.util.Arrays;
 import java.util.List;
 
-public class DiagonalKickoff extends KickoffOutputSequence {
+public class DiagonalKickoff extends KickoffSequence {
 
     public DiagonalKickoff(BotController botController) {
         super(new Vector3f(-2048, -2560, 17.01), botController);

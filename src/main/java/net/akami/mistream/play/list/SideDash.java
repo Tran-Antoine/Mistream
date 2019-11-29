@@ -1,13 +1,13 @@
 package net.akami.mistream.play.list;
 
 import net.akami.mistream.core.BotController;
-import net.akami.mistream.play.FragmentedOutputSequence;
+import net.akami.mistream.play.FragmentedSequence;
 import net.akami.mistream.play.OutputSequence;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class SideDash extends FragmentedOutputSequence {
+public class SideDash extends FragmentedSequence {
 
     private boolean left;
     private float speed;

@@ -4,7 +4,7 @@ import net.akami.mistream.gamedata.CarInfoProvider;
 import net.akami.mistream.gamedata.DataHandler;
 import net.akami.mistream.output.ControlsOutput;
 import net.akami.mistream.play.OutputSequence;
-import net.akami.mistream.play.UnfragmentableOutputSequence;
+import net.akami.mistream.play.UnfragmentableSequence;
 import net.akami.mistream.vector.Vector2f;
 import net.akami.mistream.vector.Vector3f;
 import rlbot.ControllerState;
@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.function.Function;
 
 // TODO : Some stuff can be moved to the upper class
-public abstract class EndToEndSequence extends UnfragmentableOutputSequence {
+public abstract class EndToEndSequence extends UnfragmentableSequence {
 
     protected Vector3f end;
     private CarInfoProvider locProvider;

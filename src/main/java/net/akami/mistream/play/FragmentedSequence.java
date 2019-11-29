@@ -7,12 +7,12 @@ import rlbot.ControllerState;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class FragmentedOutputSequence implements OutputSequence {
+public abstract class FragmentedSequence implements OutputSequence {
 
     private List<OutputSequence> children;
     protected BotController botController;
 
-    public FragmentedOutputSequence(BotController botController) {
+    public FragmentedSequence(BotController botController) {
         this.botController = botController;
     }
 
@@ -20,7 +20,8 @@ public abstract class FragmentedOutputSequence implements OutputSequence {
 
     @Override
     public boolean isStopped() {
-        throw new IllegalStateException("FragmentedOutputSequences may be present, but should not be used in the queue");
+        // As soon as it is picked, it must be replaced by its children
+        return true;
     }
 
     @Override
@@ -28,10 +29,10 @@ public abstract class FragmentedOutputSequence implements OutputSequence {
         if(children == null)
             children = loadChildren();
 
-        OutputSequence first = children.remove(0);
         MutableInteger integer = new MutableInteger();
         children.forEach(child -> queue.add(integer.i++, child));
-        return first.apply(queue, gameData);
+        // So that we don't lose a game tick of activity because the fragmented sequence does not have its own controller
+        return children.get(0).apply(queue, gameData);
     }
 
     // Only used for lambda incrementation
