@@ -1,0 +1,11 @@
+Blue team
+
+Locations are given as Vector3f(left, upfield from orange POV, height)
+
+Diagonal right      = -2048, -2560,    17.01
+Diagonal left       = 2048,  -2560,    17.01
+Semi diagonal right = -256,  -3840,    17.01
+Semi diagonal left  = 256,   -3840,    17.01 
+Center              = 0,     -4608,    17.01
+Respawn right       = -2304, -4607.84, 17.01
+Respawn left        = 2304,  -4607.84, 17.01
