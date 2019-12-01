@@ -10,12 +10,12 @@ public class BasicMovement extends TerminalSequence {
     private float steer;
     private float yaw;
 
-    public BasicMovement(int frameExecutions, float speed, float steer) {
-        this(frameExecutions, speed, 0, steer);
+    public BasicMovement(int time, float speed, float steer) {
+        this(time, speed, 0, steer);
     }
 
-    public BasicMovement(int frameExecutions, float speed, float yaw, float steer) {
-        super(frameExecutions, null);
+    public BasicMovement(int time, float speed, float yaw, float steer) {
+        super(time, null);
         this.speed = speed;
         this.steer = steer;
         this.yaw = yaw;
@@ -28,5 +28,10 @@ public class BasicMovement extends TerminalSequence {
                 .withYaw(yaw)
                 .withThrottle(speed == -1 ? 1 : speed)
                 .withBoost(speed == -1);
+    }
+
+    @Override
+    public String name() {
+        return String.format("Basic movement with speed %s and steer %s", speed, steer);
     }
 }

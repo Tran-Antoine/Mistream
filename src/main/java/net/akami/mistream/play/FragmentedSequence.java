@@ -1,6 +1,5 @@
 package net.akami.mistream.play;
 
-import net.akami.mistream.core.BotController;
 import net.akami.mistream.gamedata.DataHandler;
 import rlbot.ControllerState;
 
@@ -10,9 +9,9 @@ import java.util.List;
 public abstract class FragmentedSequence implements OutputSequence {
 
     private List<OutputSequence> children;
-    protected BotController botController;
+    protected QueueHandler botController;
 
-    public FragmentedSequence(BotController botController) {
+    public FragmentedSequence(QueueHandler botController) {
         this.botController = botController;
     }
 

@@ -8,8 +8,8 @@ public class ForwardMovement extends TerminalSequence {
 
     private float speed;
 
-    public ForwardMovement(int frameExecutions, float speed) {
-        super(frameExecutions, null);
+    public ForwardMovement(int time, float speed) {
+        super(time, null);
         this.speed = speed;
     }
 
@@ -19,5 +19,10 @@ public class ForwardMovement extends TerminalSequence {
                 .withSteer(0)
                 .withThrottle(speed == -1 ? 1 : speed)
                 .withBoost(speed == -1);
+    }
+
+    @Override
+    public String name() {
+        return "forward movement";
     }
 }

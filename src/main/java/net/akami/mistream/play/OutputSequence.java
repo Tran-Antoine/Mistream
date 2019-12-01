@@ -76,6 +76,7 @@ public interface OutputSequence {
      */
     ControllerState apply(LinkedList<OutputSequence> queue, DataHandler gameData);
     boolean isStopped();
+    String name();
 
     /**
      * Defines how exactly the sequence should be added in the given queue. In 99% of the cases, this method

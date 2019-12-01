@@ -17,17 +17,21 @@ public abstract class EndToEndSequence extends UnfragmentableSequence {
 
     protected Vector3f end;
     private CarInfoProvider locProvider;
-    private int frameExecuted;
+    private long startTime;
 
     protected EndToEndSequence(Vector3f end, CarInfoProvider locProvider) {
         this.end = end;
         this.locProvider = locProvider;
     }
 
-    protected abstract Function<Integer, Float> getBoostFunction();
+    protected abstract Function<Long, Float> getBoostFunction();
 
     @Override
     public ControllerState apply(LinkedList<OutputSequence> queue, DataHandler gameData) {
+
+        if(startTime == 0) {
+            startTime = System.currentTimeMillis();
+        }
 
         Vector2f carDir = locProvider.getBotDirection().flatten();
         Vector2f carLoc = locProvider.getBotLocation().flatten();
@@ -36,7 +40,7 @@ public abstract class EndToEndSequence extends UnfragmentableSequence {
         float steer;
         boolean drift = false;
         float angle = (float) carDir.correctionAngle(carIdealDir);
-        float speed = getBoostFunction().apply(++frameExecuted);
+        float speed = getBoostFunction().apply(System.currentTimeMillis() - startTime);
         double distance = carLoc.distance(end.flatten());
 
         if(Math.abs(angle) / distance > 0.001) {
@@ -62,5 +66,10 @@ public abstract class EndToEndSequence extends UnfragmentableSequence {
     @Override
     public boolean isStopped() {
         return locProvider.getBotLocation().approximatelyEquals(end, 50);
+    }
+
+    @Override
+    public String name() {
+        return "Heading to : " + end;
     }
 }

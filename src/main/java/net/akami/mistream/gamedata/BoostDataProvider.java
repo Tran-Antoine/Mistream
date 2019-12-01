@@ -1,6 +1,5 @@
 package net.akami.mistream.gamedata;
 
-import net.akami.mistream.core.BotController;
 import net.akami.mistream.vector.Vector2f;
 import net.akami.mistream.vector.Vector3f;
 import rlbot.cppinterop.RLBotDll;
@@ -47,7 +46,7 @@ public class BoostDataProvider implements DataProvider {
         }
     }
 
-    public BoostPad getNearestPad(BotController botController) {
+    public BoostPad getNearestPad(DataHandler botController) {
         return getNearestPad(botController.data(CarInfoProvider.class));
     }
 
@@ -56,7 +55,7 @@ public class BoostDataProvider implements DataProvider {
     }
 
     public BoostPad getNearestPad(Vector3f carLocation) {
-        double distance = 1000000;
+        double distance = Float.MAX_VALUE;
         BoostPad currentNearest = null;
 
         for(BoostPad pad : orderedBoosts) {

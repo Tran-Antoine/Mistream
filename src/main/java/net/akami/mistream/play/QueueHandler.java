@@ -1,28 +1,33 @@
-package net.akami.mistream.core;
+package net.akami.mistream.play;
 
+import net.akami.mistream.core.MistreamDisplay;
 import net.akami.mistream.gamedata.*;
-import net.akami.mistream.play.OutputSequence;
 import net.akami.mistream.play.list.DiagonalKickoff;
 import net.akami.mistream.util.ProbabilityLaw;
 import rlbot.ControllerState;
 import rlbot.flat.GameTickPacket;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class BotController extends DataHandler implements DataProvider {
+public class QueueHandler extends DataHandler implements DataProvider {
 
     private static final int MAX_PREDICTIONS = 5;
 
+    private MistreamDisplay display;
     // Main element of the program. The queue stores "plays", that are played one after another
     private final LinkedList<OutputSequence> queue;
     // The current sequence being applied
     private OutputSequence currentSequence;
     // The actual list of available "plays"
-    private final List<Function<BotController, OutputSequence>> generator;
+    private final List<Function<QueueHandler, OutputSequence>> generator;
 
-    public BotController() {
+    public QueueHandler(MistreamDisplay display) {
+        this.display = display;
         this.queue = new LinkedList<>();
         this.generator = loadSuppliers();
     }
@@ -31,9 +36,11 @@ public class BotController extends DataHandler implements DataProvider {
     public void update(GameTickPacket packet) {
         dataProviders.forEach((dataProvider -> dataProvider.update(packet)));
         updateQueue();
+        updateDisplay();
     }
 
     private void updateQueue() {
+
         // If several trajectories are already planned, we avoid loading any other. Plays can not be predicted so far ahead
         if(queue.size() >= MAX_PREDICTIONS) {
             return;
@@ -43,11 +50,16 @@ public class BotController extends DataHandler implements DataProvider {
                 .stream()
                 .map((f) -> f.apply(this))
                 .collect(Collectors.toList());
-
         OutputSequence suitableSequence = ProbabilityLaw.of(sequences, (seq) -> seq.weight(queue, this))
                 .draw();
+        if(suitableSequence != null) {
+            System.out.println("Queuing a new sequence : " + suitableSequence.name());
+            suitableSequence.queue(queue);
+        }
+    }
 
-        suitableSequence.queue(queue);
+    private void updateDisplay() {
+        display.setText(currentSequence);
     }
 
     public Optional<ControllerState> provideController() {
@@ -64,7 +76,7 @@ public class BotController extends DataHandler implements DataProvider {
         return currentSequence == null && queue.size() == 0;
     }
 
-    private List<Function<BotController, OutputSequence>> loadSuppliers() {
+    private List<Function<QueueHandler, OutputSequence>> loadSuppliers() {
         return Arrays.asList(
                 DiagonalKickoff::new
         );
@@ -77,5 +89,9 @@ public class BotController extends DataHandler implements DataProvider {
                 new CarInfoProvider(),
                 new GameState()
         );
+    }
+
+    public OutputSequence getCurrentSequence() {
+        return currentSequence;
     }
 }

@@ -15,7 +15,7 @@ public class LinearEndToEndSequence extends EndToEndSequence {
     }
 
     @Override
-    protected Function<Integer, Float> getBoostFunction() {
+    protected Function<Long, Float> getBoostFunction() {
         return (i) -> speed;
     }
 }

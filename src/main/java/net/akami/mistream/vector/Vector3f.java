@@ -123,4 +123,12 @@ public class Vector3f extends rlbot.vector.Vector3 {
     public boolean approximatelyEquals(Vector3f end, int error) {
         return Math.abs(this.distance(end)) < error;
     }
+
+    public Vector3f abs() {
+        return new Vector3f(Math.abs(x), Math.abs(y), Math.abs(z));
+    }
+
+    /*public boolean pointsTowards(Vector3f start, Vector3f end, float error) {
+        return false;
+    }*/
 }

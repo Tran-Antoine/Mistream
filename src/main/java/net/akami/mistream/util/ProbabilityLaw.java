@@ -30,6 +30,8 @@ public class ProbabilityLaw<T> {
     }
 
     public void add(T element, float weight) {
+        if(weight == 0) return;
+
         events.put(element, weight);
         totalWeight += weight;
     }

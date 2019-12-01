@@ -5,14 +5,14 @@ import rlbot.flat.GameTickPacket;
 public class GameState implements DataProvider {
 
     private GameTickPacket currentPacket;
-    // TODO : actually update these values
-    private int timeLeft;
+    private float time;
     // -1 means one goal down, +1 means one goal up
     private int scoreDifference;
 
     @Override
     public void update(GameTickPacket packet) {
         this.currentPacket = packet;
+        this.time = packet.gameInfo().secondsElapsed();
     }
 
     public GameTickPacket getCurrentPacket() {
@@ -23,7 +23,7 @@ public class GameState implements DataProvider {
         return scoreDifference;
     }
 
-    public int getTimeLeft() {
-        return timeLeft;
+    public float getTime() {
+        return time;
     }
 }

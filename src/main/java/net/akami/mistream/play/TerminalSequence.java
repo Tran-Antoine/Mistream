@@ -1,6 +1,5 @@
 package net.akami.mistream.play;
 
-import net.akami.mistream.core.BotController;
 import net.akami.mistream.gamedata.DataHandler;
 import rlbot.ControllerState;
 
@@ -8,13 +7,13 @@ import java.util.LinkedList;
 
 public abstract class TerminalSequence implements OutputSequence {
 
-    private int frameExecutions;
-    private int currentFrameExecutions;
+    private long endTime;
+    private int time;
     private ControllerState controllerState;
-    protected BotController botController;
+    protected QueueHandler botController;
 
-    public TerminalSequence(int frameExecutions, BotController botController) {
-        this.frameExecutions = frameExecutions;
+    public TerminalSequence(int time, QueueHandler botController) {
+        this.time = time;
         this.botController = botController;
     }
 
@@ -22,7 +21,9 @@ public abstract class TerminalSequence implements OutputSequence {
 
     @Override
     public ControllerState apply(LinkedList<OutputSequence> queue, DataHandler gameData) {
-        this.currentFrameExecutions++;
+        if(endTime == 0) {
+            endTime = System.currentTimeMillis() + time;
+        }
         if(controllerState == null) {
             controllerState = loadController();
         }
@@ -31,7 +32,7 @@ public abstract class TerminalSequence implements OutputSequence {
 
     @Override
     public boolean isStopped() {
-        return currentFrameExecutions > frameExecutions;
+        return System.currentTimeMillis() > endTime;
     }
 
 }

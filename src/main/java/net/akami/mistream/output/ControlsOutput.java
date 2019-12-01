@@ -1,6 +1,6 @@
 package net.akami.mistream.output;
 
-import net.akami.mistream.core.BotController;
+import net.akami.mistream.play.QueueHandler;
 import net.akami.mistream.play.list.TerminalSequenceWrapper;
 import rlbot.ControllerState;
 
@@ -33,8 +33,21 @@ public class ControlsOutput implements ControllerState {
     private boolean slideDepressed;
     private boolean useItemDepressed;
 
-    public TerminalSequenceWrapper wrap(int frameExecutions, BotController botController) {
-        return new TerminalSequenceWrapper(this, frameExecutions, botController);
+    public TerminalSequenceWrapper wrap(int time, QueueHandler botController) {
+        return new TerminalSequenceWrapper(this, time, botController);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("steer: %s, throttle: %s, jump: %s, boost: %s, drift: %s, rot: {%s, %s, %s}",
+                steer,
+                throttle,
+                jumpDepressed,
+                boostDepressed,
+                slideDepressed,
+                pitch,
+                yaw,
+                roll);
     }
 
     public ControlsOutput withSteer(float steer) {
