@@ -12,11 +12,11 @@ public class JumpMovement extends TerminalSequence {
     private float pitch;
     private float speed;
 
-    public JumpMovement(int time, float roll, float yaw, float speed, QueueHandler botController) {
+    public JumpMovement(float time, float roll, float yaw, float speed, QueueHandler botController) {
         this(time, roll, yaw, 0, speed, botController);
     }
 
-    public JumpMovement(int time, float roll, float yaw, float pitch, float speed, QueueHandler botController) {
+    public JumpMovement(float time, float roll, float yaw, float pitch, float speed, QueueHandler botController) {
         super(time, botController);
         this.roll = roll;
         this.speed = speed;

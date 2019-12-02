@@ -18,6 +18,7 @@ public abstract class PolymorphicSequence implements OutputSequence {
         }
         return ProbabilityLaw.of(possibilities, (seq) -> seq.weight(queue, null))
                 .draw()
+                .orElseThrow(() -> new IllegalStateException("Could not find a suitable sequence"))
                 .apply(queue, gameData);
     }
 

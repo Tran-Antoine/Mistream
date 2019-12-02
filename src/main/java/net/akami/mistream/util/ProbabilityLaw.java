@@ -1,10 +1,7 @@
 package net.akami.mistream.util;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.function.Function;
 
 public class ProbabilityLaw<T> {
@@ -30,6 +27,7 @@ public class ProbabilityLaw<T> {
     }
 
     public void add(T element, float weight) {
+        // 0 weight elements are not taken into account
         if(weight == 0) return;
 
         events.put(element, weight);
@@ -46,9 +44,9 @@ public class ProbabilityLaw<T> {
         events.remove(element);
     }
 
-    public T draw() {
+    public Optional<T> draw() {
         if(events.size() == 0) {
-            return null;
+            return Optional.empty();
         }
 
         float current = 0;
@@ -58,14 +56,14 @@ public class ProbabilityLaw<T> {
             float value = event.getValue();
             T key = event.getKey();
             if(value == -1) {
-                return key;
+                return Optional.of(key);
             }
             if(current > randValue) {
-                return previous;
+                return Optional.ofNullable(previous);
             }
             previous = key;
             current += value;
         }
-        return previous;
+        return Optional.ofNullable(previous);
     }
 }

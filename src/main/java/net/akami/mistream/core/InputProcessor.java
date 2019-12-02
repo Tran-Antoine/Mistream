@@ -10,7 +10,8 @@ import rlbot.flat.GameTickPacket;
 public class InputProcessor implements Bot {
 
     // for debugging purposes
-    private String currentPlay;
+    private String currentPlayName;
+    private boolean debug = true;
 
     private final int playerIndex;
     private final QueueHandler manager;
@@ -22,7 +23,9 @@ public class InputProcessor implements Bot {
 
     @Override
     public ControllerState processInput(GameTickPacket packet) {
-        debug();
+        if(debug) {
+            debug();
+        }
 
         if (error(packet)) {
             return ControlsOutput.EMPTY;
@@ -37,9 +40,9 @@ public class InputProcessor implements Bot {
         OutputSequence current = manager.getCurrentSequence();
         if(current != null) {
             String name = manager.getCurrentSequence().name();
-            if(!name.equals(currentPlay)) {
-                this.currentPlay = name;
-                System.out.println(currentPlay);
+            if(!name.equals(currentPlayName)) {
+                this.currentPlayName = name;
+                System.out.println("Current play : " + currentPlayName);
             }
         }
     }

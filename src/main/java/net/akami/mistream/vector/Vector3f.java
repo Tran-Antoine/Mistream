@@ -128,7 +128,14 @@ public class Vector3f extends rlbot.vector.Vector3 {
         return new Vector3f(Math.abs(x), Math.abs(y), Math.abs(z));
     }
 
-    /*public boolean pointsTowards(Vector3f start, Vector3f end, float error) {
-        return false;
-    }*/
+    public boolean pointsTowards(Vector3f point, float yaw, float pitch, float error) {
+        double perfectRatio = Math.tan(pitch);
+        double currentRatio = (point.z - this.z) / (point.flatten().minus(this.flatten()).magnitude());
+        if (Math.abs(perfectRatio - currentRatio) > error) {
+            return false;
+        }
+        perfectRatio = Math.tan(yaw);
+        currentRatio = (point.x - this.x) / (point.y - this.y);
+        return Math.abs(perfectRatio - currentRatio) < error;
+    }
 }

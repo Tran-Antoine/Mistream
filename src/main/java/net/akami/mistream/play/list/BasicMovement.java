@@ -10,11 +10,11 @@ public class BasicMovement extends TerminalSequence {
     private float steer;
     private float yaw;
 
-    public BasicMovement(int time, float speed, float steer) {
+    public BasicMovement(float time, float speed, float steer) {
         this(time, speed, 0, steer);
     }
 
-    public BasicMovement(int time, float speed, float yaw, float steer) {
+    public BasicMovement(float time, float speed, float yaw, float steer) {
         super(time, null);
         this.speed = speed;
         this.steer = steer;

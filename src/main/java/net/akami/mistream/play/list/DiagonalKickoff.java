@@ -19,14 +19,14 @@ public class DiagonalKickoff extends KickoffSequence {
 
         int factor = !isOnLeft() ? -1 : 1;
         return Arrays.asList(
-                new BasicMovement(300, -1, 0),
-                new BasicMovement(100, -1, factor),
+                new BasicMovement(0.3f, -1, 0),
+                new BasicMovement(0.1f, -1, factor),
                 new SideDash(botController, isOnLeft(), -1),
                 new PostDashLanding(botController),
-                new BasicMovement(50, -1, 0),
-                new JumpMovement(280, 0, 0, 1, botController),
+                new BasicMovement(0.05f, -1, 0),
+                new JumpMovement(0.28f, 0, 0, 1, botController),
                 new ResetMovement(0, botController),
-                new JumpMovement(50, factor/2.0f, 0, -0.3f,1, botController)
+                new JumpMovement(0.05f, factor/2.0f, 0, -0.3f,1, botController)
         );
     }
 

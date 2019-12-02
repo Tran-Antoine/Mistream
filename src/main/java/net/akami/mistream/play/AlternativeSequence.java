@@ -20,7 +20,9 @@ public abstract class AlternativeSequence implements OutputSequence {
     }
 
     private void setSequence(LinkedList<OutputSequence> queue, DataHandler gameData) {
-         this.sequence = ProbabilityLaw.of(loadAlternatives(), (seq) -> seq.weight(queue, gameData)).draw();
+         this.sequence = ProbabilityLaw.of(loadAlternatives(), (seq) -> seq.weight(queue, gameData))
+                 .draw()
+                 .orElseThrow(() -> new IllegalStateException("Could not find a suitable sequence"));
     }
 
     protected abstract List<OutputSequence> loadAlternatives();

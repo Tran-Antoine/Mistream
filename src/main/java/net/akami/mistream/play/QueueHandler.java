@@ -29,7 +29,17 @@ public class QueueHandler extends DataHandler implements DataProvider {
     public QueueHandler(MistreamDisplay display) {
         this.display = display;
         this.queue = new LinkedList<>();
-        this.generator = loadSuppliers();
+        this.generator = loadPlays();
+    }
+
+    public Optional<ControllerState> provideController() {
+        if(currentSequence == null || currentSequence.isStopped()) {
+            this.currentSequence = queue.poll();
+            if(currentSequence == null) {
+                return Optional.empty();
+            }
+        }
+        return Optional.of(currentSequence.apply(queue, this));
     }
 
     @Override
@@ -50,33 +60,26 @@ public class QueueHandler extends DataHandler implements DataProvider {
                 .stream()
                 .map((f) -> f.apply(this))
                 .collect(Collectors.toList());
-        OutputSequence suitableSequence = ProbabilityLaw.of(sequences, (seq) -> seq.weight(queue, this))
-                .draw();
-        if(suitableSequence != null) {
-            System.out.println("Queuing a new sequence : " + suitableSequence.name());
-            suitableSequence.queue(queue);
-        }
+
+        ProbabilityLaw.of(sequences, (seq) -> seq.weight(queue, this))
+                .draw()
+                .ifPresent(this::queue);
+    }
+
+    private void queue(OutputSequence target) {
+        System.out.println("Queuing a new sequence : " + target.name());
+        target.queue(queue);
     }
 
     private void updateDisplay() {
         display.setText(currentSequence);
     }
 
-    public Optional<ControllerState> provideController() {
-        if(currentSequence == null || currentSequence.isStopped()) {
-            this.currentSequence = queue.poll();
-            if(currentSequence == null) {
-                return Optional.empty();
-            }
-        }
-        return Optional.of(currentSequence.apply(queue, this));
-    }
-
     public boolean isBotInactive() {
         return currentSequence == null && queue.size() == 0;
     }
 
-    private List<Function<QueueHandler, OutputSequence>> loadSuppliers() {
+    private List<Function<QueueHandler, OutputSequence>> loadPlays() {
         return Arrays.asList(
                 DiagonalKickoff::new
         );
