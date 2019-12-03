@@ -7,8 +7,12 @@ import net.akami.mistream.play.FragmentedSequence;
 import net.akami.mistream.play.QueueHandler;
 import net.akami.mistream.play.OutputSequence;
 import net.akami.mistream.vector.Vector3f;
+import rlbot.ControllerState;
+import rlbot.cppinterop.RLBotDll;
 import rlbot.flat.GameTickPacket;
+import rlbot.gamestate.CarState;
 
+import java.util.LinkedList;
 import java.util.Queue;
 
 public abstract class KickoffSequence extends FragmentedSequence {
@@ -31,5 +35,14 @@ public abstract class KickoffSequence extends FragmentedSequence {
 
     public boolean isOnLeft() {
         return botController.data(CarInfoProvider.class).getBotLocation().x < 0;
+    }
+
+    @Override
+    public ControllerState apply(LinkedList<OutputSequence> queue, DataHandler gameData) {
+        rlbot.gamestate.GameState state = new rlbot.gamestate.GameState()
+                .withCarState(0, new CarState()
+                        .withBoostAmount(33f));
+        RLBotDll.setGameState(state.buildPacket());
+        return super.apply(queue, gameData);
     }
 }

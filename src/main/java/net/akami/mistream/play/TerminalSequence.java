@@ -10,11 +10,12 @@ public abstract class TerminalSequence implements OutputSequence {
 
     private float endTime;
     private float currentTime;
-    private float seconds;
+    private final float seconds;
     private ControllerState controllerState;
     protected QueueHandler botController;
 
     public TerminalSequence(float seconds, QueueHandler botController) {
+        System.out.println("Initialized " + name() + " with duration of " + seconds);
         this.seconds = seconds;
         this.botController = botController;
     }
@@ -38,6 +39,7 @@ public abstract class TerminalSequence implements OutputSequence {
 
     @Override
     public boolean isStopped() {
+        //System.out.println(currentTime + " vs " + endTime + " ("+seconds+")s");
         return currentTime > endTime;
     }
 

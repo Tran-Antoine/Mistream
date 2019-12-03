@@ -25,9 +25,9 @@ public class SideDash extends FragmentedSequence {
     @Override
     protected List<OutputSequence> loadChildren() {
         return Arrays.asList(
-                new JumpMovement(100, 0f, left ? -0.4f : 0.4f, speed, botController),
-                new ForwardMovement(1, speed),
-                new JumpMovement(1, left ? -0.7f : 0.7f, left ? 0.4f : -0.4f, speed, botController)
+                new JumpMovement(0.01f, 0f, left ? -0.4f : 0.4f, speed, botController),
+                new ForwardMovement(0.1f, speed),
+                new JumpMovement(0.1f, left ? -0.7f : 0.7f, left ? 0.4f : -0.4f, speed, botController)
         );
     }
 

@@ -8,7 +8,7 @@ public class ForwardMovement extends TerminalSequence {
 
     private float speed;
 
-    public ForwardMovement(int time, float speed) {
+    public ForwardMovement(float time, float speed) {
         super(time, null);
         this.speed = speed;
     }

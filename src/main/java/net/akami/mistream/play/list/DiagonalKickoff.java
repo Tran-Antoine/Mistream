@@ -20,18 +20,18 @@ public class DiagonalKickoff extends KickoffSequence {
         int factor = !isOnLeft() ? -1 : 1;
         return Arrays.asList(
                 new BasicMovement(0.3f, -1, 0),
-                new BasicMovement(0.1f, -1, factor),
+                new BasicMovement(0.08f, -1, factor),
                 new SideDash(botController, isOnLeft(), -1),
-                new PostDashLanding(botController),
-                new BasicMovement(0.05f, -1, 0),
-                new JumpMovement(0.28f, 0, 0, 1, botController),
+                new PostDashLanding(botController, isOnLeft()),
+                new BasicMovement(0.07f, -1, 0),
+                new JumpMovement(0.26f, 0, 0, 1, botController),
                 new ResetMovement(0, botController),
-                new JumpMovement(0.05f, factor/2.0f, 0, -0.3f,1, botController)
+                new JumpMovement(0.05f, factor/3.0f, factor * 0.7f, -0.8f,1, botController)
         );
     }
 
     @Override
     public String name() {
-        return "Diagonal kickoff, Lionblaze form";
+        return "Diagonal kickoff, Flakes form";
     }
 }

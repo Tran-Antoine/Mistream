@@ -10,6 +10,7 @@ import com.google.flatbuffers.FlatBufferBuilder;
  */
 public class Vector3f extends rlbot.vector.Vector3 {
 
+    // for angles : vec(x,y,z) = vec(yaw, pitch, roll)
     public static final Vector3f ZERO = new Vector3f();
 
     public Vector3f(double x, double y, double z) {
