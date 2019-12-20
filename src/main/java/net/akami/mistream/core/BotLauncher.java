@@ -1,6 +1,5 @@
 package net.akami.mistream.core;
 
-import net.akami.mistream.play.QueueHandler;
 import rlbot.Bot;
 import rlbot.manager.BotManager;
 import rlbot.pyinterop.SocketServer;
@@ -17,6 +16,6 @@ public class BotLauncher extends SocketServer {
     @Override
     protected Bot initBot(int index, String botType, int team) {
         System.out.println("Bot successfully initialized");
-        return new InputProcessor(index, new QueueHandler(display));
+        return new InputProcessor(index, new MistreamQueueHandler(display));
     }
 }

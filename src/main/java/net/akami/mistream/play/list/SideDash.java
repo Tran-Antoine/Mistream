@@ -1,8 +1,8 @@
 package net.akami.mistream.play.list;
 
-import net.akami.mistream.play.QueueHandler;
 import net.akami.mistream.play.FragmentedSequence;
 import net.akami.mistream.play.OutputSequence;
+import net.akami.mistream.play.QueueHandler;
 
 import java.util.Arrays;
 import java.util.List;

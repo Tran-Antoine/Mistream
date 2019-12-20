@@ -1,7 +1,7 @@
 package net.akami.mistream.play.list;
 
-import net.akami.mistream.play.QueueHandler;
 import net.akami.mistream.play.OutputSequence;
+import net.akami.mistream.play.QueueHandler;
 import net.akami.mistream.vector.Vector3f;
 
 import java.util.Arrays;
